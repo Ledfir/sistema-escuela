@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Identidad institucional — verde y crema, configurables desde Configuración */
+    --brand-ink: #245447;
+    --brand-deep: #17382f;
+    --brand-gold: #8c7440;
+    --brand-sand: #d9cba7;
+    --brand-paper: #f7f3e8;
+    --brand-clay: #a65a42;
+    --brand-sage: #5e7d6b;
+
+    --background: 44 48% 94%;
+    --foreground: 164 40% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 164 40% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 164 40% 15%;
+    --primary: 164 40% 24%;
+    --primary-foreground: 44 48% 96%;
+    --secondary: 43 32% 88%;
+    --secondary-foreground: 164 40% 18%;
+    --muted: 44 30% 90%;
+    --muted-foreground: 164 14% 36%;
+    --accent: 43 45% 75%;
+    --accent-foreground: 164 40% 18%;
+    --destructive: 0 60% 42%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 43 26% 82%;
+    --input: 43 26% 78%;
+    --ring: 164 40% 24%;
+    --chart-1: 164 40% 24%;
+    --chart-2: 43 45% 60%;
+    --chart-3: 164 25% 45%;
+    --chart-4: 28 35% 52%;
+    --chart-5: 200 15% 48%;
+    --radius: 0.35rem;
+    --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
+    --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sidebar-background: 164 40% 14%;
+    --sidebar-foreground: 44 40% 93%;
+    --sidebar-primary: 43 45% 75%;
+    --sidebar-primary-foreground: 164 40% 15%;
+    --sidebar-accent: 164 32% 20%;
+    --sidebar-accent-foreground: 44 40% 95%;
+    --sidebar-border: 164 28% 22%;
+    --sidebar-ring: 43 45% 75%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    font-feature-settings: "cv02", "cv03", "cv04";
+  }
+
+  ::selection {
+    background: #24544726;
+  }
+}
+
+/* ---------- Hero: ripple institucional ---------- */
+.hero-rings {
+  transform: translate(-50%, -50%) perspective(680px) rotateX(61deg);
+  transform-origin: 50% 50%;
+  -webkit-mask-image: radial-gradient(closest-side, #000 54%, rgba(0, 0, 0, 0) 100%);
+  mask-image: radial-gradient(closest-side, #000 54%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+}
+
+.hero-rings::before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  background: repeating-radial-gradient(
+    circle at 50% 50%,
+    rgba(217, 203, 167, 0) 0 12.5px,
+    rgba(217, 203, 167, 0.55) 13px 14px,
+    rgba(217, 203, 167, 0) 14.5px 15px
+  );
+  animation: hero-breathe 8s ease-in-out infinite;
+}
+
+@keyframes hero-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.045);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .hero-rings::before {
+    animation: none;
+  }
+}
+
+/* ---------- Detalles editoriales ---------- */
+.rule-gold {
+  background: linear-gradient(90deg, transparent, var(--brand-gold), transparent);
+  height: 1px;
+}
+
+.paper-texture {
+  background-image: radial-gradient(rgba(18, 48, 60, 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Impresión (boletas, recibos, cortes) ---------- */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+  /* Solo se imprime el área marcada (boletas, recibos, cortes) */
+  body * {
+    visibility: hidden;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none !important;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  @page {
+    margin: 14mm;
+  }
+}
